@@ -1,31 +1,26 @@
-<template>
-  <div>
-    <div class="flex items-center">
-      <h1 class="text-lg font-semibold md:text-2xl">
-        Inventory
-      </h1>
-    </div>
-    <div class="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
-      <div class="flex flex-col items-center gap-1 text-center">
-        <h3 class="text-2xl font-bold tracking-tight">
-          You have no products
-        </h3>
-        <p class="text-sm text-muted-foreground">
-          You can start selling as soon as you add a product.
-        </p>
-        <Button class="mt-4">
-          Add Product
-        </Button>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup>
-import { Button } from '@/components/ui/button'
+import { LineChart } from '@/components/ui/chart-line'
+import { statisticStore } from '@/stores/data/statistic';
+import { onMounted, ref } from 'vue';
 
+const statistics_store = statisticStore()
+
+const data = ref([])
+
+onMounted(() => {
+  statistics_store.getAllStatistic()
+})
 </script>
 
-<style lang="">
-
-</style>
+<template>
+  <LineChart
+    :data="data"
+    index="year"
+    :categories="['Export Growth Rate', 'Import Growth Rate']"
+    :y-formatter="(tick, i) => {
+      return typeof tick === 'number'
+        ? `$ ${new Intl.NumberFormat('us').format(tick).toString()}`
+        : ''
+    }"
+  />
+</template>

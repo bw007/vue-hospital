@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.8.2",
+    "@unovis/ts": "^1.4.3",
+    "@unovis/vue": "^1.4.3",
     "@vee-validate/zod": "^4.13.2",
     "@vueuse/core": "^10.11.0",
     "axios": "^1.7.2",

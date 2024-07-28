@@ -1,21 +1,31 @@
 <template>
   <Dialog v-model:open="dialogOpen">
     <DialogTrigger as-child>
-      <Button>Yangi palata</Button>
+      <Button>Yangi shifokor</Button>
     </DialogTrigger>
     <DialogContent class="sm:max-w-[425px]">
       <DialogHeader>
-        <DialogTitle>Yangi palata</DialogTitle>
+        <DialogTitle>Yangi shifokor</DialogTitle>
         <DialogDescription>
-          Yangi palata nomini kiriting va saqlash tugmasini bosing.
+          Yangi shifokor ma'lumotlarini kiriting va saqlash tugmasini bosing.
         </DialogDescription>
       </DialogHeader>
 
       <form @submit.prevent="addForm" class="space-y-4">
+        
+        <FormField v-slot="{ componentField }" name="name">
+          <FormItem>
+            <FormLabel>Ism Familiya</FormLabel>
+            <FormControl>
+              <Input type="text" placeholder="Ism" v-bind="componentField" />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+
         <FormField v-slot="{ componentField }" name="department">
           <FormItem>
-            <FormLabel>Bo'lim nomi</FormLabel>
-
+            <FormLabel>Bo'lim</FormLabel>
             <Select v-bind="componentField">
               <FormControl>
                 <SelectTrigger>
@@ -33,34 +43,38 @@
             <FormMessage />
           </FormItem>
         </FormField>
-        <FormField v-slot="{ componentField }" name="number">
+
+        <FormField v-slot="{ componentField }" name="spec">
           <FormItem>
-
-            <FormLabel>Xona raqami</FormLabel>
-            <NumberField :default-value="1" :min="1" v-bind="componentField">
-              <NumberFieldContent>
-                <NumberFieldDecrement />
-                <NumberFieldInput/>
-                <NumberFieldIncrement />
-              </NumberFieldContent>
-            </NumberField>
-
+            <FormLabel>Mutaxassislik</FormLabel>
+            <Select v-bind="componentField">
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Mutaxassislik" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem v-for="item, i in specs" :key="i" :value="item._id">
+                    {{ item.title }}
+                  </SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
             <FormMessage />
           </FormItem>
         </FormField>
-        <FormField v-slot="{ componentField }" name="maxcount">
+
+        <FormField v-slot="{ componentField }" name="phone">
           <FormItem>
-            <FormLabel>Xona sig'imi</FormLabel>
-            <NumberField id="age" :default-value="1"  v-bind="componentField" :min="1">
-              <NumberFieldContent>
-                <NumberFieldDecrement />
-                <NumberFieldInput/>
-                <NumberFieldIncrement />
-              </NumberFieldContent>
-            </NumberField>
+            <FormLabel>Telefon</FormLabel>
+            <FormControl>
+              <Input type="text" placeholder="+998..." v-bind="componentField" />
+            </FormControl>
             <FormMessage />
           </FormItem>
         </FormField>
+
         <Button type="submit">Saqlash</Button>
       </form>
     </DialogContent>
@@ -82,13 +96,6 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import {
-  NumberField,
-  NumberFieldContent,
-  NumberFieldDecrement,
-  NumberFieldIncrement,
-  NumberFieldInput,
-} from '@/components/ui/number-field'
-import {
   FormControl,
   FormField,
   FormItem,
@@ -103,30 +110,38 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
 import { useForm } from 'vee-validate'
-import { roomStore } from '@/stores/data/room'
 import { departStore } from '@/stores/data/depart'
 import { storeToRefs } from 'pinia'
+import { specStore } from '@/stores/data/spec'
+import { doctorStore } from '@/stores/data/doctor'
 
 const formSchema = toTypedSchema(
   z.object({
+    name: z.string()
+      .min(1, "Majburiy maydon")
+      .min(3, "Kamida 3 ta belgi")
+      .max(20, "Ko'pi bilan 20 ta belgi"),
     department: z.string()
       .min(1, "Majburiy maydon")
       .min(3, "Kamida 3 ta belgi")
       .max(30, "Ko'pi bilan 20 ta belgi"),
-    number: z.number()
+    spec: z.string()
     .min(1, "Majburiy maydon")
-    .min(1, "Majburiy maydon")
-    .max(600, "10 dan 600 gacha"),
-    maxcount: z.number()
-    .min(1, "Majburiy maydon")
-    .min(1, "Kamida 1 kishi")
-    .max(6, "Ko'pi bilan 6 kishi"),
+    .min(3, "Kamida 3 ta belgi")
+    .max(30, "Ko'pi bilan 20 ta belgi"),
+    phone: z.string()
+      .min(1, "Majburiy maydon")
+      .min(3, "Kamida 3 ta belgi")
+      .max(13, "Ko'pi bilan 12 ta raqam"),
   }),
 )
 
-const room_store = roomStore()
+const doctor_store = doctorStore()
 const depart_store = departStore()
+const spec_store = specStore()
+const { specs } = storeToRefs(spec_store)
 const { departs } = storeToRefs(depart_store)
 
 const form = useForm({
@@ -136,9 +151,8 @@ const form = useForm({
 const dialogOpen = ref(false)
 
 const addForm = form.handleSubmit((data) => {
-  console.log(departs.value);
   dialogOpen.value = false
-  room_store.addRoom(data)
+  doctor_store.addDoctor(data)
 })
 
 </script>
