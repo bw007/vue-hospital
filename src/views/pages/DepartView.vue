@@ -1,6 +1,6 @@
 <template>
   <div>
-    Salom
+    Depart
   </div>
 </template>
 
