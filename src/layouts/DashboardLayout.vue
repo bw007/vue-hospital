@@ -1,5 +1,5 @@
 <script setup>
-import { CircleUser, Menu, Search, LogOut } from 'lucide-vue-next'
+import { CircleUser, Menu, Search } from 'lucide-vue-next'
 
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
@@ -30,13 +30,6 @@ import { RouterView } from 'vue-router'
               <component :is="item.icon" class="h-4 w-4" />
               {{ item.title }}
             </router-link>
-            <router-link
-              to="/auth"
-              class="flex items-center gap-3 rounded-lg px-3 py-4 mt-auto text-red-500 transition-all hover:text-red-800"
-            >
-              <LogOut class="h-4 w-4" />
-              Chiqish
-            </router-link>
           </nav>
         </div>
       </div>
@@ -61,13 +54,6 @@ import { RouterView } from 'vue-router'
                 <component :is="item.icon" class="h-4 w-4" />
                 {{ item.title }}
               </router-link>
-              <router-link
-                to="/auth"
-                class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-red-400 hover:text-red-800"
-              >
-                <LogOut class="h-4 w-4" />
-                Chiqish
-              </router-link>
             </nav>
           </SheetContent>
         </Sheet>
@@ -88,12 +74,16 @@ import { RouterView } from 'vue-router'
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuLabel>Profil</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem>Support</DropdownMenuItem>
+            <DropdownMenuItem>Sozlamalar</DropdownMenuItem>
+            <DropdownMenuItem>Yordam</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Logout</DropdownMenuItem>
+            <DropdownMenuItem>
+              <router-link to="/auth" class="text-red-400">
+                Chiqish
+              </router-link>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </header>
