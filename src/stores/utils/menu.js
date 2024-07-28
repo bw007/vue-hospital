@@ -1,4 +1,4 @@
-import { ChartNoAxesCombined, Hospital, Stethoscope } from 'lucide-vue-next'
+import { ChartNoAxesCombined, Hospital, Stethoscope, ShieldPlus } from 'lucide-vue-next'
 
 
 export const menu = [
@@ -22,5 +22,12 @@ export const menu = [
     component: () => import('@/views/pages/SpecView.vue'),
     title: 'Mutaxassisliklar',
     icon: Stethoscope
+  },
+  {
+    path: 'room',
+    name: 'Room',
+    component: () => import('@/views/pages/RoomView.vue'),
+    title: 'Palatalar',
+    icon: ShieldPlus
   }
 ]
