@@ -3,7 +3,7 @@ import { tokenStore } from '../auth/token'
 import { storeToRefs } from 'pinia'
 
 const axiosClient = axios.create({
-  baseURL: 'http://195.158.9.124:4109',
+  baseURL: import.meta.env.VITE_BASE_URL,
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
